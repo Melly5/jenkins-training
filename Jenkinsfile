@@ -1,6 +1,6 @@
 pipeline {
-	agent none
-   stages {
+  agent { docker { image 'node:24.12.0-alpine3.23' } }   
+  stages {
 		stage('Build + Test') {
       parallel {
 				stage('Build') {
