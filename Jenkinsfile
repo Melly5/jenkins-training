@@ -32,7 +32,7 @@ pipeline {
                   echo "Текущая версия: ${v}"
 
 									// Пример 1: Успешный запуск с циклом
-                  measureStep("Heavy Loop") {
+                  helpers.measureStep("Heavy Loop") {
                     echo "Запуск цикла на 3 секунды..."
                     sleep 3
                     int x = 10 * 10
@@ -40,7 +40,7 @@ pipeline {
                   }
 
                   // Пример 2: Запуск шага, который упадет
-                  measureStep("Failing Task") {
+                  helpers.measureStep("Failing Task") {
                     echo "Этот шаг сейчас упадет..."
                     sh "exit 1" // Вызываем ошибку
                   }
