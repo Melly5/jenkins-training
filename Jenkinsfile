@@ -4,7 +4,6 @@ pipeline {
 		stage('Build + Test') {
       parallel {
 				stage('Build') {
-					agent { label 'ja' }
 					environment {
 						VERSION = "1version"
 						PROJECT_NAME = "${JOB_NAME.tokenize('/')[0]}"
