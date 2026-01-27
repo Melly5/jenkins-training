@@ -23,13 +23,22 @@ pipeline {
               }
 							steps {
 								script {
-									sh """
-										printenv
-										IMAGE=test-repo:${VERSION}-${BUILD_NUMBER}
-										docker build -t \$IMAGE .
-										docker push \$IMAGE
-									"""
-								}
+                  // Это чистый Groovy
+                  def name = "Jenkins"
+                  def greeting = "Hello, ${name}!"
+                    
+                  if (name == "Jenkins") {
+                    println(greeting.toUpperCase())
+                  } else {
+                    println("Hello, stranger")
+                  }
+
+                  // Пример цикла
+                  def tools = ['Git', 'Docker', 'Maven']
+                  for (tool in tools) {
+                    echo "I can use ${tool}"
+                  }
+                }
 							}
 						}
 					}
