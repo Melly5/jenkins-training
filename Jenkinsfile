@@ -23,21 +23,13 @@ pipeline {
               }
 							steps {
 								script {
-                  // Это чистый Groovy
-                  def name = "Jenkins"
-                  def greeting = "Hello, ${name}!"
-                    
-                  if (name == "Jenkins") {
-                    println(greeting.toUpperCase())
-                  } else {
-                    println("Hello, stranger")
-                  }
+                  // Загружаем файл
+                  def helpers = load 'measureBuildTime.groovy'
 
-                  // Пример цикла
-                  def tools = ['Git', 'Docker', 'Maven']
-                  for (tool in tools) {
-                    echo "I can use ${tool}"
-                  }
+                  // Используем функции
+                  helpers.sayHello('Alina')
+                  def v = helpers.getVersion()
+                  echo "Текущая версия: ${v}"
                 }
 							}
 						}
