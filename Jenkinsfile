@@ -49,7 +49,6 @@ pipeline {
                             validResponseCodes: '200:299',
                             timeout: 10
                         )
-                    }
 
                     echo "Ответ от сервера: ${stats.response.content}"
 
