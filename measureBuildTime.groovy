@@ -1,4 +1,5 @@
-// helpers.groovy
+import groovy.json.JsonOutput
+
 def sayHello(name) {
     echo "Привет, ${name}! Это функция из файла."
 }
