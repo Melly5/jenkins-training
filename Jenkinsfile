@@ -30,6 +30,8 @@ pipeline {
                   helpers.sayHello('Alina')
                   def v = helpers.getVersion()
                   echo "Текущая версия: ${v}"
+
+									helpers.measureTime()
                 }
 							}
 						}
