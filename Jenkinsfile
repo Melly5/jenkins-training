@@ -13,7 +13,7 @@ pipeline {
 						stage('Build checkout') {
 							steps {
                 script {
-                  sh """${VERSION}-${BUILD_NUMBER}-${PROJECT_NAME}-${PROJECT_VERSION}  """
+    							echo "${VERSION}-${BUILD_NUMBER}-${PROJECT_NAME}-${PROJECT_VERSION}"
 							  }
               }
 						}
