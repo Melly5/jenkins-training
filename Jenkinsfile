@@ -31,7 +31,19 @@ pipeline {
                   def v = helpers.getVersion()
                   echo "Текущая версия: ${v}"
 
-									helpers.measureTime()
+									// Пример 1: Успешный запуск с циклом
+                  measureStep("Heavy Loop") {
+                    echo "Запуск цикла на 3 секунды..."
+                    sleep 3
+                    int x = 10 * 10
+                    echo "Результат вычислений: ${x}"
+                  }
+
+                  // Пример 2: Запуск шага, который упадет
+                  measureStep("Failing Task") {
+                    echo "Этот шаг сейчас упадет..."
+                    sh "exit 1" // Вызываем ошибку
+                  }
                 }
 							}
 						}
