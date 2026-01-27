@@ -14,25 +14,48 @@ def measureStep(String stepName, Closure body) {
     echo "--- Начало выполнения: ${stepName} ---"
     
     try {
-        // Выполняем переданный колбэк
         body()
     } catch (Exception e) {
         status = "FAILED"
-        echo "Ошибка в шаге '${stepName}': ${e.message}"
-        throw e // Пробрасываем ошибку дальше, чтобы Jenkins пометил билд как упавший
+        echo "Callback run failed for project - ${stepName}"
+        throw e
     } finally {
         long endTime = System.currentTimeMillis()
-        long duration = (endTime - startTime) / 1000 // время в секундах
+        long duration = (endTime - startTime) / 1000
         
-        // "Отправка" результата (в данном случае в лог, но здесь может быть HTTP-запрос)
         echo "--- Результат замера ---"
         echo "Шаг: ${stepName}"
         echo "Статус: ${status}"
         echo "Время выполнения: ${duration} сек."
         echo "------------------------"
-        
-        // Здесь можно добавить отправку в мониторинг, например:
-        // sh "curl -X POST http://monitoring.api -d 'name=${stepName}&status=${status}&time=${duration}'"
+        def payload = [
+            metrics: [
+                [
+                name  : 'тест данных',
+                type  : 'gauge',
+                value : duration,
+                labels: [
+                    project: "project - ${stepName}",
+                    id     : "id - ${stepName}",
+                    status : status
+                ]
+                ]
+            ]
+        ]
+
+        try {
+            httpRequest(
+                httpMode: 'POST',
+                url: 'https://webhook.site/3a8ce3cb-78b3-441e-85f9-1191cddbada7',
+                contentType: 'APPLICATION_JSON',
+                requestBody: JsonOutput.toJson(payload),
+                validResponseCodes: '200:299',
+                timeout: 10
+            )
+        } catch (err) {
+            // metrics must never break the build
+            echo "Metrics push failed: ${err}"
+        }
     }
 }
 

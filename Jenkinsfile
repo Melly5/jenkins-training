@@ -41,6 +41,18 @@ pipeline {
 
                   // Пример 2: Запуск шага, который упадет
                   helpers.measureStep("Failing Task") {
+                    def requestConfig = [url: 'https://api.github.com']
+    
+                    stats = httpRequest(
+                            url: requestConfig.url,
+                            httpMode: 'GET',
+                            validResponseCodes: '200:299',
+                            timeout: 10
+                        )
+                    }
+
+                    echo "Ответ от сервера: ${stats.response.content}"
+
                     echo "Этот шаг сейчас упадет..."
                     sh "exit 1" // Вызываем ошибку
                   }
