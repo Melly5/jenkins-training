@@ -1,0 +1,7 @@
+apiVersion: v2
+name: jenkins-training
+description: jenkins-training
+type: application
+version: 1.0.0
+appVersion: latest
+

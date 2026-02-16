@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-deployment
+  namespace: default
+  labels:
+    app: jenkins
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: jenkins
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: jenkins
+        tier: frontend
+    spec:
+      containers:
+        - name: next-js
+          image: my-next-app:v1
+          imagePullPolicy: Never # Важно: берем локальный образ
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: jenkins-config
+          resources:
+            requests:
+              memory: "16Mi"
+              cpu: "50m" # 50 milli cores (1/20 CPU)
+            limits:
+              memory: "128Mi" # 128 mebibytes
+              cpu: "100m"
+
